@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, Linkedin, Github, Send } from 'lucide-react';
+import { Mail, Linkedin, Github, Send } from 'lucide-react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -10,26 +10,45 @@ export default function Contact() {
     email: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, email, message } = formData;
-    
-    // Construct prefilled mailto URL
-    const subject = `Portfolio Contact from ${name}`;
-    const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
-    
-    const mailtoUrl = `mailto:sanghanibhakti922@gmail.com?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
-    
-    // Open in a new tab/window
-    window.location.href = mailtoUrl;
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+        setErrorMessage(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch {
+      setSubmitStatus('error');
+      setErrorMessage('Network error. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -140,8 +159,9 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     required
+                    disabled={isSubmitting}
                     placeholder="Alice Liddell"
-                    className="w-full bg-white/[0.03] border border-white/[0.08] focus:border-matrix rounded-lg px-4 py-3 text-white text-sm outline-none transition-all focus:ring-1 focus:ring-matrix"
+                    className="w-full bg-white/[0.03] border border-white/[0.08] focus:border-matrix rounded-lg px-4 py-3 text-white text-sm outline-none transition-all focus:ring-1 focus:ring-matrix disabled:opacity-50"
                   />
                 </div>
 
@@ -156,8 +176,9 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
+                    disabled={isSubmitting}
                     placeholder="alice@wonderland.com"
-                    className="w-full bg-white/[0.03] border border-white/[0.08] focus:border-matrix rounded-lg px-4 py-3 text-white text-sm outline-none transition-all focus:ring-1 focus:ring-matrix"
+                    className="w-full bg-white/[0.03] border border-white/[0.08] focus:border-matrix rounded-lg px-4 py-3 text-white text-sm outline-none transition-all focus:ring-1 focus:ring-matrix disabled:opacity-50"
                   />
                 </div>
               </div>
@@ -173,18 +194,40 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   required
+                  disabled={isSubmitting}
                   placeholder="Hey Bhakti, I'd like to talk to you about a backend system architecture..."
-                  className="w-full bg-white/[0.03] border border-white/[0.08] focus:border-matrix rounded-lg px-4 py-3 text-white text-sm outline-none transition-all focus:ring-1 focus:ring-matrix resize-none"
+                  className="w-full bg-white/[0.03] border border-white/[0.08] focus:border-matrix rounded-lg px-4 py-3 text-white text-sm outline-none transition-all focus:ring-1 focus:ring-matrix resize-none disabled:opacity-50"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-matrix hover:bg-matrix-dark text-black font-semibold rounded-lg transition-all duration-300 shadow-[0_4px_20px_rgba(0,255,136,0.2)] hover:shadow-[0_4px_30px_rgba(0,255,136,0.4)] outline-none"
+                disabled={isSubmitting}
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-matrix hover:bg-matrix-dark text-black font-semibold rounded-lg transition-all duration-300 shadow-[0_4px_20px_rgba(0,255,136,0.2)] hover:shadow-[0_4px_30px_rgba(0,255,136,0.4)] outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span>Send Message</span>
-                <Send size={14} />
+                <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+                <Send size={14} className={isSubmitting ? 'animate-pulse' : ''} />
               </button>
+
+              {submitStatus === 'success' && (
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-matrix font-mono text-xs mt-4"
+                >
+                  ✓ Message sent successfully! I will get back to you soon.
+                </motion.p>
+              )}
+
+              {submitStatus === 'error' && (
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-red-500 font-mono text-xs mt-4"
+                >
+                  ✗ {errorMessage}
+                </motion.p>
+              )}
             </form>
           </motion.div>
 

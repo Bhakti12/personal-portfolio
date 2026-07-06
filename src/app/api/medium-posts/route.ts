@@ -2,8 +2,19 @@ import { NextResponse } from 'next/server';
 
 export const revalidate = 3600; // Cache route for 1 hour
 
+interface MediumPost {
+  title: string;
+  link: string;
+  pubDate: string;
+  excerpt: string;
+  coverImage: string | null;
+  source: string;
+  readTime: string;
+  tags: string[];
+}
+
 function parseMediumRSS(xmlText: string) {
-  const items: any[] = [];
+  const items: MediumPost[] = [];
   const itemRegex = /<item>([\s\S]*?)<\/item>/g;
   let match;
   
