@@ -2,6 +2,7 @@ import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Projects from "@/components/Projects";
+import ApiConsole from "@/components/ApiConsole";
 import Games from "@/components/Games";
 import Blogs from "@/components/Blogs";
 import Contact from "@/components/Contact";
@@ -18,6 +19,7 @@ export default function Home() {
         <Hero />
         <About />
         <Projects />
+        <ApiConsole />
         <Games />
         <Blogs />
         <Contact />

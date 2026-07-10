@@ -3,6 +3,8 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import ClickEffect from "@/components/ClickEffect";
 import CustomCursor from "@/components/CustomCursor";
+import CommandPalette from "@/components/CommandPalette";
+import SystemHealth from "@/components/SystemHealth";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,6 +39,8 @@ export default function RootLayout({
       >
         <CustomCursor />
         <ClickEffect />
+        <CommandPalette />
+        <SystemHealth />
         {children}
       </body>
     </html>

@@ -122,6 +122,9 @@ export default function Blogs() {
                             alt={post.title}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             loading="lazy"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop&q=80";
+                            }}
                           />
                         ) : (
                           <div className="w-full h-full bg-gradient-to-br from-matrix/5 via-transparent to-transparent flex items-center justify-center relative font-mono text-[9px] text-matrix/20 p-4 select-none">

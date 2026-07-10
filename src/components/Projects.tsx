@@ -8,59 +8,79 @@ interface ProjectData {
   title: string;
   problem: string;
   approach: string[];
-  outcome: string;
+  outcome: string | string[];
   tags: string[];
   mockType: 'fleet' | 'healthcare' | 'physio' | 'aviation';
 }
 
 const PROJECTS: ProjectData[] = [
   {
-    title: 'Real-time Fleet Visibility & Telematics',
-    problem: 'A fleet operator needed to track hundreds of vehicles in real time, but raw GPS/telemetry data was arriving too fast and too messy to be useful — no live view, no alerts, no history worth querying.',
+    title: 'Vehicle Monitoring System',
+    problem: 'Tracking vehicles in remote areas during emergencies was extremely difficult using basic GPS data alone. There was no system in place to detect critical events like overspeeding, harsh braking, or emergencies in real time. Additionally, RTOs, city authorities, and police departments had no way to manage geofences accurately, and responding to accidents or incidents was a slow, manual process.',
     approach: [
-      'Built high-frequency telemetry ingestion pipelines in Python and Node.js, with custom packet parsing to cut data loss and improve throughput.',
-      'Designed a dual-database architecture — MySQL for relational metadata (vehicles, drivers, SIM cards), partitioned PostgreSQL for time-series telemetry.',
-      'Integrated MapmyIndia for live location visualization and geofence-based alerting.',
-      'Layered in secure, role-based dashboards with authentication, rate limiting, and CSRF protection to VAPT-compliant standards.',
+      'Built a comprehensive fleet management platform featuring live vehicle tracking, geofencing with route deviation alerts, and an SOS/incident reporting system for emergencies.',
+      'Implemented driver behavior mapping to monitor overspeeding and harsh braking, along with a real-time alerts and notification management system.',
+      'Designed role-based dashboards (RBAC) for different stakeholders — including RTOs, city authorities, and police stations — to manage and monitor their respective vehicles and geofences with accurate counts.',
+      'Added analytics and day-by-day reporting for fleet insights, along with full CRUD operations for managing company, vehicle, and device details.',
+      'Integrated SMS-based communication with IoT devices and a FOTA (Firmware Over-The-Air) mechanism for remote device updates.',
     ],
-    outcome: 'Reduced historical query latency by 40% and gave fleet operators live, geofenced visibility with role-based access control.',
-    tags: ['Node.js', 'Python', 'MySQL', 'PostgreSQL', 'MapmyIndia'],
+    outcome: [
+      'Delivered a robust fleet monitoring platform that reduced emergency response time through real-time SOS alerts and instant incident reporting.',
+      'Improved fleet safety and accountability with driver behavior tracking (overspeeding, harsh braking) and automated geofence/route deviation alerts.',
+      'Enabled RTOs, city authorities, and police to manage and monitor their vehicles and geofences accurately through dedicated role-based dashboards.',
+      'Reduced historical query latency by 40% through an optimized hybrid database architecture (MySQL + partitioned PostgreSQL), enabling faster analytics and reporting.',
+      'Streamlined device management with SMS-based IoT communication and FOTA, reducing manual intervention for firmware updates across the fleet.',
+    ],
+    tags: ['Node.js', 'Python', 'MySQL', 'PostgreSQL', 'MapmyIndia', 'Redis', 'PostGIS', 'Docker'],
     mockType: 'fleet',
   },
   {
-    title: 'Digitizing Healthcare Workflows (FHIR-compliant)',
-    problem: 'A senior-care healthcare provider was running critical medical workflows on paper-based and semi-manual processes — slow, error-prone, and impossible to make interoperable with other systems.',
+    title: 'Healthcare Application (FHIR-Compliant)',
+    problem: 'Home nurse care involved extensive paperwork, with over 20+ different forms per patient depending on the type of care — ranging from initial intake forms to medication tracking. This manual, paper-based process was time-consuming, error-prone, and lacked any digital record-keeping, creating friction for both nurses and care providers.',
     approach: [
-      'Designed and built a FHIR-compliant platform to digitize medical form workflows, using Aidbox for interoperable data exchange.',
-      'Built a scalable Form Service via REST APIs supporting dynamic form creation and external healthcare-system integration.',
-      'Implemented Kafka-based ingestion pipelines and migrated legacy on-premise records into MongoDB.',
-      'Worked directly with frontend, QA, and product to translate clinical requirements into technical specs.',
+      'Designed and built a FHIR-compliant digital platform using Aidbox, a FHIR-based server with built-in form-building capabilities and FHIR-compliant storage. Created dynamic digital forms and integrated them with our existing MySQL and MongoDB databases to auto-populate patient details — eliminating repetitive manual data entry for nurses.',
+      'The platform was researched, built, and deployed in a short timeframe, quickly gaining adoption across nursing staff.',
+      'To handle scale, migrated 15+ million records (visits, patients, users, medications) from SQL to MongoDB for better performance, using Kafka for reliable data streaming and AWS architecture for infrastructure.',
+      'Built the system using a microservices architecture, integrating multiple third-party APIs into our own services for seamless interoperability.',
     ],
-    outcome: 'Digitized structured data capture for senior-care workflows and improved healthcare record traceability, replacing manual processes with reliable, interoperable pipelines.',
-    tags: ['Node.js', 'Express.js', 'Kafka', 'MongoDB', 'FHIR/Aidbox'],
+    outcome: [
+      'Successfully digitized the entire home nurse care workflow, eliminating manual paperwork and significantly reducing form completion time through auto-population of patient data.',
+      'Enabled nurses across care settings to adopt the platform quickly due to its intuitive, form-based design.',
+      'Improved system performance and scalability by migrating 15+ million records to a NoSQL architecture, ensuring the platform could reliably handle high data volume.',
+      'Achieved a robust, interoperable system through microservices and API integrations, supporting long-term extensibility and easier future integrations.',
+    ],
+    tags: ['Node.js', 'Kafka', 'MySQL', 'PostgreSQL', 'MongoDB', 'Aidbox (FHIR)', 'AWS CloudFormation', 'API Gateway', 'SQS', 'CloudWatch', 'Microservices'],
     mockType: 'healthcare',
   },
   {
-    title: 'Physiotherapy Operations Dashboard',
-    problem: 'A physiotherapy practice needed to manage scheduling and staff workload without double-booking or overloading therapists.',
+    title: 'PhysioDashboard',
+    problem: 'A physiotherapy clinic with multiple practitioners had no centralized way to manage daily operations. The clinic owner needed a single system to handle practitioner scheduling and attendance, patient appointments and visit history, medication tracking, payment status across different payment methods, and notifications — all of which were being managed manually and inefficiently.',
     approach: [
-      'Built a scheduling and workload-optimization dashboard in Laravel/MySQL.',
-      'Implemented secure REST APIs with RBAC, CSRF protection, and encrypted session management.',
+      'Designed the system architecture and built a comprehensive operations dashboard covering practitioner management, patient scheduling, visit tracking, medication records, and payment processing (including multiple payment methods and status tracking).',
+      'Implemented workload optimization algorithms to balance scheduling across practitioners, along with a notification system to keep both staff and patients updated.',
+      'Secured the platform with RBAC (role-based access control), CSRF protection, and encrypted session management to protect sensitive clinic and patient data.',
     ],
-    outcome: 'Gave the practice a single system to manage schedules and balance therapist workload securely.',
-    tags: ['Laravel', 'MySQL', 'RBAC'],
+    outcome: [
+      'Delivered a fully digitized clinic management system that currently handles 1,000+ practitioners and 15,000+ patients reliably and at scale.',
+      'Eliminated manual coordination for scheduling, payments, and attendance tracking, giving the clinic owner centralized visibility and control over all operations.',
+    ],
+    tags: ['Laravel', 'MySQL', 'React.js', 'AWS Lambda', 'Docker'],
     mockType: 'physio',
   },
   {
-    title: 'Aviation Crew Management Sync',
-    problem: 'An aviation crew management system needed to stay in sync with external airline systems in real time, while automating error-prone manual per-diem calculations.',
+    title: 'Aviation Crew Management System',
+    problem: 'Within a large, existing microservices-based system, airline crews traveling between destinations (e.g., London to Paris) were entitled to per diem allowances — covering hotel stays, meals, and other travel-related expenses. However, there was no dedicated system to calculate and manage these per diems accurately based on duty schedules, routes, and business rules, making it a manual and error-prone process at scale.',
     approach: [
-      'Designed backend services with real-time synchronization to external airline systems.',
-      'Automated per-diem calculations based on duty schedules and business rules.',
-      'Architected a relational schema in MySQL for crew records, scheduling data, and sync logs, tuned for query performance.',
+      'Built a dedicated per diem management module as part of the larger crew management system, integrating with existing crew scheduling and duty data to automate per diem calculations based on route, duration, and destination-specific rules.',
+      'Used GCP (Google Cloud Platform) to stay consistent with the existing microservices infrastructure, ensuring seamless integration with other crew management services already deployed on the platform.',
+      'Used Kafka for event-driven communication between services — enabling real-time synchronization of crew duty updates, schedule changes, and per diem recalculations across the system without tight coupling between services, ensuring data consistency even as crew schedules changed frequently.',
     ],
-    outcome: 'Removed manual per-diem calculation errors and kept crew data reliably in sync across systems.',
-    tags: ['Node.js', 'Express.js', 'React', 'MySQL'],
+    outcome: [
+      'Automated per diem calculations that were previously manual, reducing errors and processing time for crew expense management.',
+      'Ensured real-time consistency between crew schedules and per diem records through Kafka-driven event synchronization, even across a distributed microservices environment.',
+      'Delivered a solution that integrated smoothly into the existing GCP-based infrastructure without disrupting other services.',
+    ],
+    tags: ['React', 'Node.js', 'MySQL', 'MongoDB', 'PostgreSQL', 'GCP', 'Kafka'],
     mockType: 'aviation',
   },
 ];

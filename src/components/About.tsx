@@ -2,23 +2,23 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Database, ShieldAlert, Cpu, Code2, GraduationCap, LayoutGrid } from 'lucide-react';
+import { Database, ShieldAlert, Cpu, Code2, GraduationCap, LayoutGrid, Activity, MapPin, GitBranch } from 'lucide-react';
 
 const SKILL_CATEGORIES = [
   {
-    title: 'Languages',
+    title: 'Programming Languages',
     icon: <Code2 className="text-matrix" size={20} />,
     skills: ['Python', 'JavaScript', 'TypeScript'],
   },
   {
-    title: 'Backend',
+    title: 'Backend Development',
     icon: <Cpu className="text-matrix" size={20} />,
     skills: ['Node.js', 'Express.js', 'Django', 'REST APIs', 'WebSockets'],
   },
   {
     title: 'Databases',
     icon: <Database className="text-matrix" size={20} />,
-    skills: ['PostgreSQL', 'MySQL', 'MongoDB'],
+    skills: ['MySQL', 'PostgreSQL', 'MongoDB'],
   },
   {
     title: 'Cloud',
@@ -26,14 +26,24 @@ const SKILL_CATEGORIES = [
     skills: ['AWS Lambda'],
   },
   {
-    title: 'Security',
-    icon: <ShieldAlert className="text-matrix" size={20} />,
-    skills: ['JWT', 'RBAC', 'Rate Limiting', 'CSRF Protection', 'Input Validation'],
+    title: 'Healthcare Tech',
+    icon: <Activity className="text-matrix" size={20} />,
+    skills: ['FHIR', 'Aidbox'],
   },
   {
-    title: 'Specialized',
-    icon: <Cpu className="text-matrix" size={20} />,
-    skills: ['FHIR / Aidbox', 'MapmyIndia APIs', 'Kafka'],
+    title: 'Maps & Geospatial',
+    icon: <MapPin className="text-matrix" size={20} />,
+    skills: ['MapmyIndia APIs'],
+  },
+  {
+    title: 'Security',
+    icon: <ShieldAlert className="text-matrix" size={20} />,
+    skills: ['JWT Authentication', 'Role-Based Access Control (RBAC)', 'Rate Limiting', 'CSRF Protection', 'Input Validation'],
+  },
+  {
+    title: 'Tools & Version Control',
+    icon: <GitBranch className="text-matrix" size={20} />,
+    skills: ['Git', 'GitHub'],
   },
 ];
 
@@ -81,10 +91,13 @@ export default function About() {
             className="lg:col-span-7 text-gray-400 text-base sm:text-lg leading-relaxed space-y-6"
           >
             <p>
-              I&apos;m Bhakti, a backend software engineer based in Ahmedabad. Over the last three years I&apos;ve worked across healthcare, e-commerce, and IoT-based fleet management — building the systems that sit quietly behind the scenes and just need to work. I care about data integrity, clean API design, and systems that stay reliable when the load spikes.
+              Hi, I&apos;m Bhakti Sanghani, a Backend Software Engineer with 3 years of experience building scalable, data-intensive systems across healthcare, e-commerce, and IoT-based fleet management domains. I specialize in designing robust backend architectures using Node.js, Django, and REST APIs, with strong expertise in working with MySQL, PostgreSQL, and MongoDB.
             </p>
             <p>
-              I started as a trainee working across the stack, but backend is where I found my depth — RESTful APIs, relational and time-series databases, and real-time ingestion pipelines. Lately I&apos;ve been deep in telemetry: high-frequency vehicle data, geofencing, and role-based dashboards for fleet operators.
+              Over the years, I&apos;ve worked on diverse projects — from building a FHIR-compliant healthcare platform that digitized medical workflows for senior care systems, to engineering high-frequency telemetry pipelines for real-time vehicle tracking and fleet monitoring. I enjoy solving complex problems, optimizing system performance, and collaborating with cross-functional teams to deliver reliable, production-ready solutions.
+            </p>
+            <p>
+              I&apos;m passionate about writing clean, efficient code and continuously learning new technologies to build systems that make a real impact.
             </p>
           </motion.div>
 
